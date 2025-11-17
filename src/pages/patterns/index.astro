@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PatternCard from "../../components/patterns/PatternCard.astro";
+import { getCollection } from "astro:content";
+
+const patterns = await getCollection("patterns");
+---
+
+<BaseLayout title="Patterns · Collaborative Sparks">
+  <section class="space-y-6">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-semibold">Patterns</h1>
+      <p class="text-sm text-sparks-ink/80 max-w-2xl">
+        Each pattern captures a reusable solution to a recurring challenge in
+        collaboration. Think of them as navigational aids in a complex terrain.
+      </p>
+    </header>
+
+    <div class="grid gap-4 md:grid-cols-3">
+      {patterns.map((p) => <PatternCard pattern={p} />)}
+    </div>
+  </section>
+</BaseLayout>
+

@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StoryCard from "../../components/stories/StoryCard.astro";
+import { getCollection } from "astro:content";
+
+const stories = await getCollection("stories");
+---
+
+<BaseLayout title="Stories · Collaborative Sparks">
+  <section class="space-y-6">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-semibold">Stories</h1>
+      <p class="text-sm text-sparks-ink/80 max-w-2xl">
+        Stories keep the pattern library grounded in lived experience. They
+        illustrate how forces and patterns actually show up in real circles,
+        teams, and communities.
+      </p>
+    </header>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      {stories.map((s) => <StoryCard story={s} />)}
+    </div>
+  </section>
+</BaseLayout>
+

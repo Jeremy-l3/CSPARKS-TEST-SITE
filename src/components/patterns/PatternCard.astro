@@ -1,0 +1,31 @@
+---
+import Card from "../ui/Card.astro";
+
+const { pattern } = Astro.props as {
+  pattern: import("astro:content").CollectionEntry<"patterns">;
+};
+---
+
+<Card href={`/patterns/${pattern.slug}`}>
+  <div class="flex flex-col gap-2">
+    <div class="flex items-center justify-between gap-2">
+      <h3 class="font-semibold text-sparks-ink">{pattern.data.title}</h3>
+      <span class="text-[0.7rem] uppercase tracking-wide px-2 py-0.5 rounded-full bg-sparks-teal/10 text-sparks-teal">
+        {pattern.data.status}
+      </span>
+    </div>
+    <p class="text-sm text-sparks-ink/80 line-clamp-3">
+      {pattern.data.problem}
+    </p>
+    <div class="flex flex-wrap gap-1 mt-1">
+      {pattern.data.patternFamily && (
+        <span class="text-[0.7rem] px-2 py-0.5 rounded-full bg-sparks-sun/40 text-sparks-ink/80">
+          {pattern.data.patternFamily}
+        </span>
+      )}
+      <span class="text-[0.7rem] px-2 py-0.5 rounded-full bg-sparks-sky/10 text-sparks-sky">
+        {pattern.data.forces.length} force(s)
+      </span>
+    </div>
+  </div>
+</Card>

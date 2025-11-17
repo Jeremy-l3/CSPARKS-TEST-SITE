@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getPatternsForForce } from "../../lib/relationships";
+
+export async function getStaticPaths() {
+  const forces = await getCollection("forces");
+  return forces.map((force) => ({
+    params: { slug: force.slug },
+    props: { force }
+  }));
+}
+
+const { force } = Astro.props as {
+  force: import("astro:content").CollectionEntry<"forces">;
+};
+
+const patterns = await getPatternsForForce(force.data.slug);
+---
+
+<BaseLayout title={`${force.data.title} · Force`}>
+  <article class="space-y-6">
+    <header class="space-y-3">
+      <p class="text-xs uppercase tracking-wide text-sparks-ink/60">Force</p>
+      <h1 class="text-3xl font-semibold">{force.data.title}</h1>
+      {force.data.categories && force.data.categories.length > 0 && (
+        <p class="text-sm text-sparks-ink/70">
+          Categories:{" "}
+          <span class="font-medium">
+            {force.data.categories.join(", ")}
+          </span>
+        </p>
+      )}
+    </header>
+
+    <section class="space-y-3">
+      <h2 class="text-lg font-semibold">Description</h2>
+      <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
+        {force.data.description}
+      </p>
+    </section>
+
+    {patterns.length > 0 && (
+      <section class="space-y-3">
+        <h2 class="text-lg font-semibold">Patterns influenced by this force</h2>
+        <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+          {patterns.map((p) => (
+            <li>
+              <a
+                href={`/patterns/${p.slug}`}
+                class="text-sparks-teal hover:underline"
+              >
+                {p.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {force.data.relatedPatterns && force.data.relatedPatterns.length > 0 && patterns.length === 0 && (
+      <section class="space-y-3">
+        <h2 class="text-lg font-semibold">Related patterns (by slug)</h2>
+        <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+          {force.data.relatedPatterns.map((slug) => (
+            <li>{slug}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="border-t border-sparks-amber/30 pt-4 text-xs text-sparks-ink/70 flex flex-wrap gap-3">
+      {force.data.recognition?.authors && (
+        <span>
+          Authors: {force.data.recognition.authors.join(", ")}
+        </span>
+      )}
+      {force.data.recognition?.license && (
+        <span>License: {force.data.recognition.license}</span>
+      )}
+    </section>
+  </article>
+</BaseLayout>
+

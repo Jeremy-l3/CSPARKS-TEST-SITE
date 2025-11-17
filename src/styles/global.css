@@ -1,0 +1,42 @@
+/* Load Tailwind v4 */
+@import "tailwindcss";
+
+/* Enable typography plugin (for prose, prose-slate, etc.) */
+@plugin "@tailwindcss/typography";
+
+/* CSparks theme tokens (Tailwind v4 CSS-first config) */
+@theme {
+  /* Colors → gives you bg-sparks-sand, text-sparks-ink, etc. */
+  --color-sparks-sun: #ffe066;
+  --color-sparks-leaf: #4caf50;
+  --color-sparks-teal: #14b8a6;
+  --color-sparks-sky: #38bdf8;
+  --color-sparks-amber: #f59e0b;
+  --color-sparks-ink: #1f2933;
+  --color-sparks-sand: #fdf6e3;
+
+  /* Shadows → shadow-soft-card */
+  --shadow-soft-card: 0 18px 40px rgba(15, 23, 42, 0.12);
+
+  /* Radius → rounded-2xl */
+  --radius-2xl: 1.5rem;
+}
+
+/* Base typography + background */
+body {
+  @apply font-sans antialiased bg-sparks-sand text-sparks-ink;
+}
+
+/* Layout helpers used by BaseLayout */
+.cs-layout-shell {
+  @apply min-h-screen flex flex-col bg-sparks-sand text-sparks-ink;
+}
+
+.cs-layout-main {
+  @apply flex-1;
+}
+
+/* Prose for MDX content */
+.prose-custom {
+  @apply prose max-w-none prose-slate;
+}

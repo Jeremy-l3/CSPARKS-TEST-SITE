@@ -1,0 +1,48 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "Collaborative Sparks",
+  description = "A living solarpunk pattern library for healthy collaboration."
+} = Astro.props as {
+  title?: string;
+  description?: string;
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body class="min-h-screen bg-sparks-sand text-sparks-ink flex flex-col">
+    <header class="border-b border-sparks-amber/30 bg-sparks-sun/10">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-2xl bg-sparks-teal shadow-soft-card flex items-center justify-center">
+            <span class="text-xs font-bold text-white">CS</span>
+          </div>
+          <span class="font-semibold tracking-tight">Collaborative Sparks</span>
+        </a>
+        <nav class="flex items-center gap-4 text-sm font-medium">
+          <a href="/patterns" class="hover:text-sparks-teal">Patterns</a>
+          <a href="/forces" class="hover:text-sparks-teal">Forces</a>
+          <a href="/stories" class="hover:text-sparks-teal">Stories</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl mx-auto w-full px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-sparks-amber/20 bg-sparks-sun/5">
+      <div class="max-w-6xl mx-auto px-4 py-4 text-xs text-sparks-ink/70 flex flex-wrap items-center justify-between gap-2">
+        <span>CSparks · a living collaboration pattern library</span>
+        <span>Future layers: Hestia, open stewardship, dapp workbench ✨</span>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const stories = await getCollection("stories");
+  return stories.map((story) => ({
+    params: { slug: story.slug },
+    props: { story }
+  }));
+}
+
+const { story } = Astro.props as {
+  story: import("astro:content").CollectionEntry<"stories">;
+};
+---
+
+<BaseLayout title={`${story.data.title} · Story`}>
+  <article class="space-y-6">
+    <header class="space-y-3">
+      <p class="text-xs uppercase tracking-wide text-sparks-ink/60">Story</p>
+      <h1 class="text-3xl font-semibold">{story.data.title}</h1>
+      {story.data.author && (
+        <p class="text-sm text-sparks-ink/70">
+          By <span class="font-medium">{story.data.author}</span>
+        </p>
+      )}
+      {story.data.summary && (
+        <p class="text-sm text-sparks-ink/80 max-w-2xl">
+          {story.data.summary}
+        </p>
+      )}
+    </header>
+
+    <section class="space-y-3">
+      <h2 class="text-lg font-semibold">Story</h2>
+      <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
+        {story.data.body}
+      </p>
+    </section>
+
+    {(story.data.patterns || story.data.forces) && (
+      <section class="space-y-3">
+        <h2 class="text-lg font-semibold">Callouts</h2>
+        <div class="space-y-2 text-sm text-sparks-ink/80">
+          {story.data.patterns && story.data.patterns.length > 0 && (
+            <p>
+              Patterns:{" "}
+              {story.data.patterns.map((slug, idx) => (
+                <>
+                  {idx > 0 && ", "}
+                  <a
+                    href={`/patterns/${slug}`}
+                    class="text-sparks-teal hover:underline"
+                  >
+                    {slug}
+                  </a>
+                </>
+              ))}
+            </p>
+          )}
+          {story.data.forces && story.data.forces.length > 0 && (
+            <p>
+              Forces:{" "}
+              {story.data.forces.map((slug, idx) => (
+                <>
+                  {idx > 0 && ", "}
+                  <a
+                    href={`/forces/${slug}`}
+                    class="text-sparks-teal hover:underline"
+                  >
+                    {slug}
+                  </a>
+                </>
+              ))}
+            </p>
+          )}
+        </div>
+      </section>
+    )}
+
+    <section class="border-t border-sparks-amber/30 pt-4 text-xs text-sparks-ink/70 flex flex-wrap gap-3">
+      {story.data.recognition?.narrative && (
+        <span>{story.data.recognition.narrative}</span>
+      )}
+    </section>
+  </article>
+</BaseLayout>
+

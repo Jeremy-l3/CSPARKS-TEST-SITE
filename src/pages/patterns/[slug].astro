@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { getForcesForPattern, getStoriesForPatternSlug } from "../../lib/relationships";
+
+export async function getStaticPaths() {
+  const patterns = await getCollection("patterns");
+  return patterns.map((pattern) => ({
+    params: { slug: pattern.slug },
+    props: { pattern }
+  }));
+}
+
+const { pattern } = Astro.props as {
+  pattern: import("astro:content").CollectionEntry<"patterns">;
+};
+
+const forces = await getForcesForPattern(pattern);
+const stories = await getStoriesForPatternSlug(pattern.slug);
+---
+
+<BaseLayout title={`${pattern.data.title} · Pattern`}>
+  <article class="space-y-6">
+    <header class="space-y-3">
+      <p class="text-xs uppercase tracking-wide text-sparks-ink/60">Pattern</p>
+      <h1 class="text-3xl font-semibold">{pattern.data.title}</h1>
+      {pattern.data.patternFamily && (
+        <p class="text-sm text-sparks-ink/70">
+          Pattern family: <span class="font-medium">{pattern.data.patternFamily}</span>
+        </p>
+      )}
+    </header>
+
+    <section class="grid gap-6 md:grid-cols-2">
+      <div class="space-y-4">
+        <h2 class="text-lg font-semibold">Context</h2>
+        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
+          {pattern.data.context}
+        </p>
+
+        <h2 class="text-lg font-semibold">Problem</h2>
+        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
+          {pattern.data.problem}
+        </p>
+
+        <h2 class="text-lg font-semibold">Forces</h2>
+        <ul class="space-y-1 text-sm text-sparks-ink/80">
+          {forces.map((f) => (
+            <li>
+              <a href={`/forces/${f.slug}`} class="text-sparks-teal hover:underline">
+                {f.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="space-y-4">
+        <h2 class="text-lg font-semibold">Solution</h2>
+        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
+          {pattern.data.solution}
+        </p>
+
+        <h2 class="text-lg font-semibold">Implementation</h2>
+        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
+          {pattern.data.implementation}
+        </p>
+
+        {pattern.data.examples && pattern.data.examples.length > 0 && (
+          <div>
+            <h2 class="text-lg font-semibold">Examples</h2>
+            <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+              {pattern.data.examples.map((ex) => <li>{ex}</li>)}
+            </ul>
+          </div>
+        )}
+      </div>
+    </section>
+
+    {stories.length > 0 && (
+      <section class="space-y-3">
+        <h2 class="text-lg font-semibold">Stories that reference this pattern</h2>
+        <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+          {stories.map((s) => (
+            <li>
+              <a href={`/stories/${s.slug}`} class="text-sparks-teal hover:underline">
+                {s.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="border-t border-sparks-amber/30 pt-4 text-xs text-sparks-ink/70 flex flex-wrap gap-3">
+      <span>Version: {pattern.data.version}</span>
+      <span>Status: {pattern.data.status}</span>
+      <span>Schema: {pattern.data.schemaVersion}</span>
+    </section>
+  </article>
+</BaseLayout>

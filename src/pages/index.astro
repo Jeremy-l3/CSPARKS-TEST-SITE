@@ -1,11 +1,79 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PatternCard from "../components/patterns/PatternCard.astro";
+import ForceCard from "../components/forces/ForceCard.astro";
+import StoryCard from "../components/stories/StoryCard.astro";
+import { getCollection } from "astro:content";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const patterns = (await getCollection("patterns")).slice(0, 3);
+const forces = (await getCollection("forces")).slice(0, 3);
+const stories = (await getCollection("stories")).slice(0, 3);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Collaborative Sparks · Solarpunk Pattern Library">
+  <section class="mb-10 grid gap-6 md:grid-cols-[3fr_2fr] items-start">
+    <div class="space-y-4">
+      <h1 class="text-3xl md:text-4xl font-semibold tracking-tight">
+        A solarpunk pattern library for{" "}
+        <span class="text-sparks-teal">living collaboration</span>.
+      </h1>
+      <p class="text-sparks-ink/80 max-w-2xl text-sm md:text-base">
+        CSparks is a living library of collaboration patterns, forces, and stories.
+        It’s a place where facilitators, stewards, and hackers of the old world
+        share what actually works in the cracks of the new one.
+      </p>
+    </div>
+    <div class="rounded-2xl border border-sparks-amber/30 bg-white/80 p-4 shadow-soft-card text-sm">
+      <h2 class="font-semibold mb-2 text-sparks-ink">What lives here now?</h2>
+      <ul class="space-y-1 text-sparks-ink/80">
+        <li>• Patterns that encode collaboration wisdom</li>
+        <li>• Forces that map the terrain we navigate</li>
+        <li>• Stories that keep the library human</li>
+      </ul>
+      <p class="mt-3 text-xs text-sparks-ink/60">
+        Future layers: open standard stewardship, Hestia commons integration,
+        and dapp workbench spaces for token-enabled collaboration.
+      </p>
+    </div>
+  </section>
+
+  <section class="space-y-6 mb-10">
+    <div class="flex items-center justify-between gap-2">
+      <h2 class="text-xl font-semibold">Featured Patterns</h2>
+      <a href="/patterns" class="text-sm text-sparks-teal hover:underline">
+        View all patterns →
+      </a>
+    </div>
+    <div class="grid gap-4 md:grid-cols-3">
+      {patterns.map((p) => <PatternCard pattern={p} />)}
+    </div>
+  </section>
+
+  <section class="grid gap-10 md:grid-cols-2">
+    <div class="space-y-4">
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="text-lg font-semibold">Forces</h2>
+        <a href="/forces" class="text-sm text-sparks-teal hover:underline">
+          View all →
+        </a>
+      </div>
+      <div class="grid gap-4">
+        {forces.map((f) => <ForceCard force={f} />)}
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="text-lg font-semibold">Stories</h2>
+        <a href="/stories" class="text-sm text-sparks-teal hover:underline">
+          View all →
+        </a>
+      </div>
+      <div class="grid gap-4">
+        {stories.map((s) => <StoryCard story={s} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+

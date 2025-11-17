@@ -1,0 +1,17 @@
+---
+import Card from "../ui/Card.astro";
+
+const { force } = Astro.props as {
+  force: import("astro:content").CollectionEntry<"forces">;
+};
+---
+
+<Card href={`/forces/${force.slug}`}>
+  <div class="flex flex-col gap-2">
+    <h3 class="font-semibold text-sparks-ink">{force.data.title}</h3>
+    <p class="text-sm text-sparks-ink/80 line-clamp-3">
+      {force.data.description}
+    </p>
+  </div>
+</Card>
+
