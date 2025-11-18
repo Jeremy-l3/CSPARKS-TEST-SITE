@@ -1,89 +1,92 @@
-🌞 Collaborative Sparks
-A Solarpunk Pattern Language for Living Collaboration
+# 🌞 Collaborative Sparks
+### A Solarpunk Pattern Language for Living Collaboration
 
 CSparks is a living, open, solarpunk-inspired pattern library for healthy collaboration.
 It collects patterns, forces, and stories emerging from real practice in regenerative communities, DAOs, cooperatives, and impact networks.
 
 Built with Astro 5, TailwindCSS v4, and MDX, this repository is the canonical home for the CSparks pattern language and future community knowledge infrastructure.
 
-🌱 Purpose
+### 🌱 Purpose
 
 The CSparks pattern library exists to help communities:
 
-Sense the underlying forces that shape collaborative behavior
+- Sense the underlying forces that shape collaborative behavior
 
-Name reusable patterns that help people organize, relate, and create together
+- Name reusable patterns that help people organize, relate, and create together
 
-Share stories that reveal the human texture behind these patterns
+- Share stories that reveal the human texture behind these patterns
 
-Invite stewardship, literacy, and narrative meaning across a decentralized network
+- Invite stewardship, literacy, and narrative meaning across a decentralized network
 
-Grow a solarpunk future in the cracks of the old world by cultivating practices that nourish life, agency, and shared power
+- Grow a solarpunk future in the cracks of the old world by cultivating practices that nourish life, agency, and shared power
 
 This repository is the first implementation of the CSparks website and content architecture — a home for the emerging pattern language of living collaboration.
 
-🌐 Project Vision
+### 🌐 Project Vision
 
 The CSparks pattern library is part of the broader ODIN ecosystem, and contributes to:
 
-🟢 Healthy collaboration infrastructures
+- 🟢 Healthy collaboration infrastructures
 
-🔥 Open pattern languages
+- 🔥 Open pattern languages
 
-🌿 Living governance systems (Sociocracy + Source principles + network science)
+- 🌿 Living governance systems (Sociocracy + Source principles + network science)
 
-💠 Commons stewardship models (future Hestia integration)
+- 💠 Commons stewardship models (future Hestia integration)
 
-🎮 Solarpunk RPG-like pathways for contributor engagement
+- 🎮 Solarpunk RPG-like pathways for contributor engagement
 
-🔗 Open standard schemas that may eventually anchor on-chain
+- 🔗 Open standard schemas that may eventually anchor on-chain
 
 Long-term, this repository will expand into:
 
-A pattern forge (interactive creation/gamification)
+- A pattern forge (interactive creation/gamification)
 
-A stewardship webring
+- A stewardship webring
 
-Contributor profiles & quests
+- Contributor profiles & quests
 
-Community-defined pattern families
+- Community-defined pattern families
 
-Open metadata standards for cross-network use
+- Open metadata standards for cross-network use
 
-This is just the beginning.
+**This is just the beginning.**
 
-✨ Features (Current)
-📘 Patterns, Forces, Stories — fully structured
+---
 
-MDX content collections via Astro
+### ✨ Features (Current)
+**📘 Patterns, Forces, Stories — fully structured**
 
-Zod-validated schemas for consistent metadata
+- MDX content collections via Astro
 
-Relationship mapping (pattern ↔ force ↔ story)
+- Zod-validated schemas for consistent metadata
 
-Recognition metadata for authors, influences, licenses
+- Relationship mapping (pattern ↔ force ↔ story)
 
-🎨 Solarpunk UI Theme
+- Recognition metadata for authors, influences, licenses
 
-TailwindCSS v4 with custom CSparks palette
+**🎨 Solarpunk UI Theme**
 
-Soft-card UI components
+- TailwindCSS v4 with custom CSparks palette
 
-Clean layouts + typography
+- Soft-card UI components
 
-Space for future solarpunk-RPG UI layers
+- Clean layouts + typography
 
-⚡ Astro 5 Engine
+- Space for future solarpunk-RPG UI layers
 
-Static site
+**⚡ Astro 5 Engine**
 
-Blazing-fast dev experience
+- Static site
 
-Hot reload
+- Blazing-fast dev experience
 
-Easy deploy on Netlify/Vercel
+- Hot reload
 
-📁 Clear Architecture
+- Easy deploy on Netlify/Vercel
+
+**📁 Clear Architecture**
+```
 src/
   content/
     patterns/
@@ -94,56 +97,59 @@ src/
   lib/
   pages/
   styles/
+```
 
-🧩 Extensible & Future-Proof
+**🧩 Extensible & Future-Proof**
 
-Optional Obsidian integration planned
+- Optional Obsidian integration planned
 
-Designed for on-chain metadata evolution
+- Designed for on-chain metadata evolution
 
-Room for pattern families, quests, contributor pathways
-
-💻 Development Setup
+- Room for pattern families, quests, contributor pathways
+---
+### 💻 Development Setup
 
 Clone the repo:
-
+```
 git clone https://github.com/<your-username>/csparks-astro.git
 cd csparks-astro
-
+```
 
 Install dependencies:
-
+```
 npm install
-
+```
 
 Start the dev server:
-
+```
 npm run dev
-
+```
 
 Then open:
-
+```
 http://localhost:4321/
-
+```
 
 You should see the solarpunk CSparks homepage with navigation to:
 
-/patterns
+- `/patterns`
 
-/forces
+- `/forces`
 
-/stories
+- `/stories`
 
-🧩 Content Structure
+---
+
+### 🧩 Content Structure
 
 Content lives in src/content/* using MDX files.
 
-🌬 Forces
+**🌬 Forces**
 
 Atomic tensions, attractors, and landscape features.
 
 Example frontmatter:
-
+```
 ---
 title: Presence Before Performance
 description: >
@@ -157,11 +163,11 @@ recognition:
   authors:
     - "Collaborative Sparks community"
 ---
-
-🔥 Patterns
+```
+**🔥 Patterns**
 
 Practical solutions to recurring problems in collaborative life.
-
+```
 ---
 title: Pulse of the Circle
 context: >
@@ -182,11 +188,11 @@ recognition:
   authors:
     - "Collaborative Sparks community"
 ---
-
-📖 Stories
+```
+**📖 Stories**
 
 Narrative expressions that show forces + patterns in real life.
-
+```
 ---
 title: A Small Circle Finds Its Pulse
 summary: >
@@ -200,99 +206,112 @@ recognition:
   narrative: >
     A composite of many circles experimenting with pulse practices.
 ---
+```
 
-🤝 Contributing
+---
+
+### 🤝 Contributing
 
 CSparks is a living library. Contributions of all kinds are welcome:
 
-🟢 Pattern contributions
+**🟢 Pattern contributions**
 
 Help encode collective wisdom into patterns.
 
-🌬 Force discovery
+**🌬 Force discovery**
 
 Identify underlying dynamics and tensions.
 
-📖 Stories
+**📖 Stories**
 
 Share lived experiences that anchor the pattern language.
 
-🎨 UI / design contributions
+**🎨 UI / design contributions**
 
 Help shape the solarpunk aesthetic and information architecture.
 
-🧠 Governance / stewardship patterns
+**🧠 Governance / stewardship patterns**
 
-Add insights from S3, Source work, network science, and regenerative economics.
+Add insights from S3, Source work, network science, teal orgs and regenerative economics.
 
 A full contributor guide (including Pattern Templates, Force Templates, Story Templates) will be added soon.
 
-🌍 Roadmap
-v0.2 — Contributor Templates
+---
 
-Pattern, Force, Story template MDX files
+### 🌍 Roadmap
+**v0.2 — Contributor Templates**
 
-/contribute page with instructions
+- Pattern, Force, Story template MDX files
 
-Improved content validation
+- /contribute page with instructions
 
-v0.3 — Pattern Families & Browsing
+- Improved content validation
 
-Tags, categories, filtering
+**v0.3 — Pattern Families & Browsing**
 
-Better discovery UX
+- Tags, categories, filtering
 
-v0.4 — Obsidian Integration (optional)
+- Better discovery UX
 
-Wikilink support
+**v0.4 — Obsidian Integration (optional)**
 
-Live sync for MDX
+- Wikilink support
 
-v0.5 — Solarpunk Quest Layer
+- Live sync for MDX
 
-Pattern forging quests
+**v0.5 — Solarpunk Quest Layer**
 
-Contributor XP
+- Pattern forging quests
 
-Small “creator economy” loops
+- Contributor XP
 
-Healthy reward systems
+- Small “creator economy” loops
 
-v1.0 — Open Standard Stewardship
+- Healthy reward systems
 
-Hestia integration
+**v1.0 — Open Standard Stewardship**
 
-On-chain metadata anchors
+- Hestia integration
 
-Pattern registry
+- On-chain metadata anchors
 
-Federated webring
+- On-chain Pattern registry
 
-🧡 Recognition
+- Federated webring
+
+---
+
+### 🧡 Recognition
 
 The CSparks pattern library is inspired by:
 
-Christopher Alexander’s Pattern Language
+- Christopher Alexander’s Pattern Language
 
-Sociocracy 3.0
+- Sociocracy 3.0
 
-Source principles (Peter Koenig, Tom Nixon)
+- Source principles (Peter Koenig, Tom Nixon)
 
-Facilitators, stewards, and communities of practice across the ODIN ecosystem
+- Frederic LaLoux's Teal Prinicples
 
-And especially:
+- Facilitators, stewards, and communities of practice across the ODIN ecosystem
 
-Everyone who keeps showing up for the work of healthy collaboration.
-This library is a gift grown from your stories, tensions, and experiments.
+**And especially:**
 
-📜 License
+*Everyone who keeps showing up for the work of healthy collaboration.
+This library is a gift grown from your stories, tensions, and experiments.*
+
+---
+
+### 📜 License
 
 Content (patterns, forces, stories) is shared under:
 Creative Commons Attribution–ShareAlike (CC BY-SA 4.0)
 
 Code is MIT licensed unless otherwise noted.
 
-🌞 Closing
+---
+
+### 🌞 Closing
 
 CSparks is a collaborative garden in a solarpunk world —
 a living library tended not by experts,
