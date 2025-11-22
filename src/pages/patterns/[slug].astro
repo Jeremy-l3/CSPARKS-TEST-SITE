@@ -2,6 +2,8 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { getForcesForPattern, getStoriesForPatternSlug } from "../../lib/relationships";
+import LikeButton from "../../components/ui/LikeButton.astro";
+
 
 export async function getStaticPaths() {
   const patterns = await getCollection("patterns");
@@ -23,7 +25,11 @@ const stories = await getStoriesForPatternSlug(pattern.slug);
   <article class="space-y-6">
     <header class="space-y-3">
       <p class="text-xs uppercase tracking-wide text-sparks-ink/60">Pattern</p>
-      <h1 class="text-3xl font-semibold">{pattern.data.title}</h1>
+      <div class="flex items-center justify-between">
+  <h1 class="text-3xl font-semibold">{pattern.data.title}</h1>
+  <LikeButton slug={pattern.slug} />
+</div>
+
       {pattern.data.patternFamily && (
         <p class="text-sm text-sparks-ink/70">
           Pattern family: <span class="font-medium">{pattern.data.patternFamily}</span>

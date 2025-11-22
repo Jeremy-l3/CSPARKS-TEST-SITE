@@ -1,0 +1,86 @@
+---
+const { slug } = Astro.props as { slug: string };
+---
+
+<button
+  type="button"
+  data-slug={slug}
+  class="cs-like-btn inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full border border-sparks-amber/40 bg-white/70 hover:bg-sparks-sun/40 transition cursor-pointer"
+>
+  <span class="cs-like-icon">☆</span>
+  <span class="cs-like-label">Like</span>
+</button>
+
+<script client:load>
+  const STORAGE_KEY = "csparks_likes_v1";
+
+  function readLikes() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return new Set();
+      const arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) return new Set();
+      return new Set(arr);
+    } catch {
+      return new Set();
+    }
+  }
+
+  function writeLikes(likes) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(likes)));
+    } catch {
+      // ignore write errors
+    }
+  }
+
+  const likes = readLikes();
+
+  function updateButton(btn) {
+    const slug = btn.dataset.slug;
+    if (!slug) return;
+
+    const icon = btn.querySelector(".cs-like-icon");
+    const label = btn.querySelector(".cs-like-label");
+    if (!icon || !label) return;
+
+    const liked = likes.has(slug);
+
+    icon.textContent = liked ? "★" : "☆";
+    label.textContent = liked ? "Liked" : "Like";
+
+    btn.classList.toggle("bg-sparks-teal/10", liked);
+    btn.classList.toggle("border-sparks-teal/70", liked);
+  }
+
+  document.querySelectorAll(".cs-like-btn").forEach((btn) => {
+    updateButton(btn);
+
+    btn.addEventListener("click", (event) => {
+      // prevent any parent link from firing
+      event.preventDefault();
+      event.stopPropagation();
+
+      const slug = btn.dataset.slug;
+      if (!slug) return;
+
+      if (likes.has(slug)) {
+        likes.delete(slug);
+      } else {
+        likes.add(slug);
+      }
+
+      writeLikes(likes);
+      updateButton(btn);
+
+      // 🔔 tell the rest of the app that likes changed
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("csparks-likes-changed"));
+      }
+    });
+  });
+</script>
+
+
+
+
