@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
     "sync:authoring": "node scripts/sync-authoring.mjs",
     "dev:authoring": "npm run sync:authoring && npm run dev"
   },
