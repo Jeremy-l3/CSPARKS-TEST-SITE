@@ -1,16 +1,20 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import PatternCard from "../../components/patterns/PatternCard.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PatternCard from '../../components/patterns/PatternCard.astro';
+import { getCollection } from 'astro:content';
 
-const patterns = await getCollection("patterns");
+const patterns = await getCollection('patterns');
 
 // Hard-coded curated family placeholders
-const curatedFamilies = [
-  "Sociocracy 3.0",
-  "Teal Organizations",
-  "Space Trains"
-];
+const curatedFamilies = ['Sociocracy 3.0', 'Teal Organizations', 'Space Trains'] as const;
+
+const familyDescriptions: Record<string, string> = {
+  'Sociocracy 3.0':
+    'Patterns and tools for distributed governance, consent, and continuous learning.',
+  'Teal Organizations': 'Ecosystems of self-management, wholeness, and evolutionary purpose.',
+  'Space Trains':
+    'Speculative sensemaking, coordination architectures, and cosmic-scale collaboration metaphors.',
+};
 ---
 
 <BaseLayout title="Patterns · Collaborative Sparks">
@@ -23,17 +27,9 @@ const curatedFamilies = [
       </p>
     </header>
 
-    <p
-      id="liked-empty"
-      class="text-xs text-sparks-ink/60"
-    >
-      Like a pattern to see it appear here.
-    </p>
+    <p id="liked-empty" class="text-xs text-sparks-ink/60">Like a pattern to see it appear here.</p>
 
-    <div
-      id="liked-grid"
-      class="grid gap-4 md:grid-cols-3"
-    >
+    <div id="liked-grid" class="grid gap-4 md:grid-cols-3">
       <!-- Populated on the client from the main grid below -->
     </div>
   </section>
@@ -42,44 +38,32 @@ const curatedFamilies = [
   <section class="space-y-4 mb-10">
     <header class="flex items-center justify-between">
       <h2 class="text-lg font-semibold">Pattern families</h2>
-      <a
-        href="/patterns/families"
-        class="text-xs text-sparks-teal hover:underline"
-      >
+      <a href="/patterns/families" class="text-xs text-sparks-teal hover:underline">
         View all families →
       </a>
     </header>
 
     <div class="grid gap-3 md:grid-cols-3">
-      {curatedFamilies.map((fam) => {
-        const descriptions = {
-          "Sociocracy 3.0":
-            "Patterns and tools for distributed governance, consent, and continuous learning.",
-          "Teal Organizations":
-            "Ecosystems of self-management, wholeness, and evolutionary purpose.",
-          "Space Trains":
-            "Speculative sensemaking, coordination architectures, and cosmic-scale collaboration metaphors."
-        };
+      {
+        curatedFamilies.map((fam) => {
+          const count = patterns.filter((p) => p.data.patternFamily === fam).length;
 
-        const count = patterns.filter(
-          (p) => p.data.patternFamily === fam
-        ).length;
-
-        return (
-          <a
-            href={`/patterns/families/${fam}`}
-            class="p-4 rounded-2xl shadow-soft-card border border-sparks-amber/30 bg-white/80 hover:bg-sparks-sun/20 transition flex flex-col gap-2"
-          >
-            <h3 class="font-semibold text-sparks-ink">{fam}</h3>
-            <p class="text-xs text-sparks-ink/70">
-              {descriptions[fam] ?? "A neighborhood of related collaboration patterns."}
-            </p>
-            <p class="text-[0.7rem] text-sparks-ink/60 mt-auto">
-              {count} pattern{count === 1 ? "" : "s"}
-            </p>
-          </a>
-        );
-      })}
+          return (
+            <a
+              href={`/patterns/families/${fam}`}
+              class="p-4 rounded-2xl shadow-soft-card border border-sparks-amber/30 bg-white/80 hover:bg-sparks-sun/20 transition flex flex-col gap-2"
+            >
+              <h3 class="font-semibold text-sparks-ink">{fam}</h3>
+              <p class="text-xs text-sparks-ink/70">
+                {familyDescriptions[fam] ?? 'A neighborhood of related collaboration patterns.'}
+              </p>
+              <p class="text-[0.7rem] text-sparks-ink/60 mt-auto">
+                {count} pattern{count === 1 ? '' : 's'}
+              </p>
+            </a>
+          );
+        })
+      }
     </div>
   </section>
 
@@ -88,45 +72,45 @@ const curatedFamilies = [
     <header class="space-y-2">
       <h1 class="text-2xl font-semibold">Patterns</h1>
       <p class="text-sm text-sparks-ink/80 max-w-2xl">
-        Each pattern captures a reusable solution to a recurring challenge in
-        collaboration. Think of them as navigational aids in a complex terrain.
+        Each pattern captures a reusable solution to a recurring challenge in collaboration. Think
+        of them as navigational aids in a complex terrain.
       </p>
     </header>
 
     <div class="grid gap-4 md:grid-cols-3">
-      {patterns.map((p) => (
-        <div data-pattern-slug={p.slug}>
-          <PatternCard pattern={p} />
-        </div>
-      ))}
+      {
+        patterns.map((p) => (
+          <div data-pattern-slug={p.slug}>
+            <PatternCard pattern={p} />
+          </div>
+        ))
+      }
     </div>
   </section>
 
-  <script client:load>
-    const likedGrid = document.getElementById("liked-grid");
-    const likedEmpty = document.getElementById("liked-empty");
+  <script>
+    const likedGrid = document.getElementById('liked-grid');
+    const likedEmpty = document.getElementById('liked-empty');
 
     function updateLikedShelf() {
       if (!likedGrid || !likedEmpty) return;
 
       // clear old shelf
-      likedGrid.innerHTML = "";
+      likedGrid.innerHTML = '';
 
-      const cards = Array.from(
-        document.querySelectorAll("[data-pattern-slug]")
-      );
+      const cards = Array.from(document.querySelectorAll('[data-pattern-slug]'));
 
       let anyLiked = false;
 
       cards.forEach((card) => {
-        const icon = card.querySelector(".cs-like-icon");
+        const icon = card.querySelector('.cs-like-icon');
         if (!icon) return;
 
-        const isLiked = icon.textContent === "★";
+        const isLiked = icon.textContent === '★';
 
         // highlight liked in main grid
-        card.classList.toggle("ring-2", isLiked);
-        card.classList.toggle("ring-sparks-teal/60", isLiked);
+        card.classList.toggle('ring-2', isLiked);
+        card.classList.toggle('ring-sparks-teal/60', isLiked);
 
         if (isLiked) {
           anyLiked = true;
@@ -136,19 +120,19 @@ const curatedFamilies = [
       });
 
       if (anyLiked) {
-        likedEmpty.classList.add("hidden");
+        likedEmpty.classList.add('hidden');
       } else {
-        likedEmpty.classList.remove("hidden");
+        likedEmpty.classList.remove('hidden');
       }
     }
 
     // Run once after load (to pick up persisted likes)
-    window.addEventListener("load", () => {
+    window.addEventListener('load', () => {
       updateLikedShelf();
     });
 
     // Re-run whenever likes change (event from LikeButton)
-    window.addEventListener("csparks-likes-changed", () => {
+    window.addEventListener('csparks-likes-changed', () => {
       updateLikedShelf();
     });
   </script>

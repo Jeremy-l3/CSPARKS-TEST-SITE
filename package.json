@@ -8,15 +8,24 @@
     "preview": "astro preview",
     "astro": "astro",
     "sync:authoring": "node scripts/sync-authoring.mjs",
-    "dev:authoring": "npm run sync:authoring && npm run dev"
+    "dev:authoring": "npm run sync:authoring && npm run dev",
+    "lint": "astro check && prettier --check .",
+    "lint:fix": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "astro": "^5.15.9"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.6",
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.17",
-    "tailwindcss": "^4.1.17"
+    "prettier": "^3.7.4",
+    "prettier-plugin-astro": "^0.14.1",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
   }
 }

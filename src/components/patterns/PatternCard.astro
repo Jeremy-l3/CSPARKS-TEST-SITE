@@ -1,9 +1,9 @@
 ---
-import Card from "../ui/Card.astro";
-import LikeButton from "../ui/LikeButton.astro";
+import Card from '../ui/Card.astro';
+import LikeButton from '../ui/LikeButton.astro';
 
 const { pattern } = Astro.props as {
-  pattern: import("astro:content").CollectionEntry<"patterns">;
+  pattern: import('astro:content').CollectionEntry<'patterns'>;
 };
 ---
 
@@ -21,7 +21,9 @@ const { pattern } = Astro.props as {
 
       <div class="flex items-center gap-2">
         <LikeButton slug={pattern.slug} />
-        <span class="text-[0.7rem] uppercase tracking-wide px-2 py-0.5 rounded-full bg-sparks-teal/10 text-sparks-teal">
+        <span
+          class="text-[0.7rem] uppercase tracking-wide px-2 py-0.5 rounded-full bg-sparks-teal/10 text-sparks-teal"
+        >
           {pattern.data.status}
         </span>
       </div>
@@ -32,25 +34,22 @@ const { pattern } = Astro.props as {
     </p>
 
     <div class="flex flex-wrap gap-1 mt-1">
-      {pattern.data.patternFamily && (
-        <span class="text-[0.7rem] px-2 py-0.5 rounded-full bg-sparks-sun/40 text-sparks-ink/80">
-          {pattern.data.patternFamily}
-        </span>
-      )}
+      {
+        pattern.data.patternFamily && (
+          <span class="text-[0.7rem] px-2 py-0.5 rounded-full bg-sparks-sun/40 text-sparks-ink/80">
+            {pattern.data.patternFamily}
+          </span>
+        )
+      }
       <span class="text-[0.7rem] px-2 py-0.5 rounded-full bg-sparks-sky/10 text-sparks-sky">
         {pattern.data.forces.length} force(s)
       </span>
     </div>
 
     <div class="mt-1">
-      <a
-        href={`/patterns/${pattern.slug}`}
-        class="text-xs text-sparks-teal hover:underline"
-      >
+      <a href={`/patterns/${pattern.slug}`} class="text-xs text-sparks-teal hover:underline">
         View pattern →
       </a>
     </div>
   </div>
 </Card>
-
-

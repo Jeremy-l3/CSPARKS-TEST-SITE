@@ -11,8 +11,8 @@ const { slug } = Astro.props as { slug: string };
   <span class="cs-like-label">Like</span>
 </button>
 
-<script client:load>
-  const STORAGE_KEY = "csparks_likes_v1";
+<script is:inline>
+  const STORAGE_KEY = 'csparks_likes_v1';
 
   function readLikes() {
     try {
@@ -40,23 +40,23 @@ const { slug } = Astro.props as { slug: string };
     const slug = btn.dataset.slug;
     if (!slug) return;
 
-    const icon = btn.querySelector(".cs-like-icon");
-    const label = btn.querySelector(".cs-like-label");
+    const icon = btn.querySelector('.cs-like-icon');
+    const label = btn.querySelector('.cs-like-label');
     if (!icon || !label) return;
 
     const liked = likes.has(slug);
 
-    icon.textContent = liked ? "★" : "☆";
-    label.textContent = liked ? "Liked" : "Like";
+    icon.textContent = liked ? '★' : '☆';
+    label.textContent = liked ? 'Liked' : 'Like';
 
-    btn.classList.toggle("bg-sparks-teal/10", liked);
-    btn.classList.toggle("border-sparks-teal/70", liked);
+    btn.classList.toggle('bg-sparks-teal/10', liked);
+    btn.classList.toggle('border-sparks-teal/70', liked);
   }
 
-  document.querySelectorAll(".cs-like-btn").forEach((btn) => {
+  document.querySelectorAll('.cs-like-btn').forEach((btn) => {
     updateButton(btn);
 
-    btn.addEventListener("click", (event) => {
+    btn.addEventListener('click', (event) => {
       // prevent any parent link from firing
       event.preventDefault();
       event.stopPropagation();
@@ -74,13 +74,9 @@ const { slug } = Astro.props as { slug: string };
       updateButton(btn);
 
       // 🔔 tell the rest of the app that likes changed
-      if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("csparks-likes-changed"));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('csparks-likes-changed'));
       }
     });
   });
 </script>
-
-
-
-

@@ -8,7 +8,7 @@ export async function getPatternsForForce(forceSlug: string) {
 
 export async function getForcesForPattern(pattern: CollectionEntry<'patterns'>) {
   const allForces = await getCollection('forces');
-  return allForces.filter((f) => pattern.data.forces.includes(f.data.slug));
+  return allForces.filter((f) => pattern.data.forces.includes(f.slug));
 }
 
 export async function getStoriesForPatternSlug(patternSlug: string) {

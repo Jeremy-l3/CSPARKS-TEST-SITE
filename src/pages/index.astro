@@ -1,26 +1,26 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import PatternCard from "../components/patterns/PatternCard.astro";
-import ForceCard from "../components/forces/ForceCard.astro";
-import StoryCard from "../components/stories/StoryCard.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PatternCard from '../components/patterns/PatternCard.astro';
+import ForceCard from '../components/forces/ForceCard.astro';
+import StoryCard from '../components/stories/StoryCard.astro';
+import { getCollection } from 'astro:content';
 
-const patterns = (await getCollection("patterns")).slice(0, 3);
-const forces = (await getCollection("forces")).slice(0, 3);
-const stories = (await getCollection("stories")).slice(0, 3);
+const patterns = (await getCollection('patterns')).slice(0, 3);
+const forces = (await getCollection('forces')).slice(0, 3);
+const stories = (await getCollection('stories')).slice(0, 3);
 ---
 
 <BaseLayout title="Collaborative Sparks · Solarpunk Pattern Library">
   <section class="mb-10 grid gap-6 md:grid-cols-[3fr_2fr] items-start">
     <div class="space-y-4">
       <h1 class="text-3xl md:text-4xl font-semibold tracking-tight">
-        A solarpunk pattern library for{" "}
+        A solarpunk pattern library for{' '}
         <span class="text-sparks-teal">living collaboration</span>.
       </h1>
       <p class="text-sparks-ink/80 max-w-2xl text-sm md:text-base">
-        CSparks is a living library of collaboration patterns, forces, and stories.
-        It’s a place where facilitators, stewards, and hackers of the old world
-        share what actually works in the cracks of the new one.
+        CSparks is a living library of collaboration patterns, forces, and stories. It’s a place
+        where facilitators, stewards, and hackers of the old world share what actually works in the
+        cracks of the new one.
       </p>
     </div>
     <div class="rounded-2xl border border-sparks-amber/30 bg-white/80 p-4 shadow-soft-card text-sm">
@@ -31,8 +31,8 @@ const stories = (await getCollection("stories")).slice(0, 3);
         <li>• Stories that keep the library human</li>
       </ul>
       <p class="mt-3 text-xs text-sparks-ink/60">
-        Future layers: open standard stewardship, Hestia commons integration,
-        and dapp workbench spaces for token-enabled collaboration.
+        Future layers: open standard stewardship, Hestia commons integration, and dapp workbench
+        spaces for token-enabled collaboration.
       </p>
     </div>
   </section>
@@ -40,9 +40,7 @@ const stories = (await getCollection("stories")).slice(0, 3);
   <section class="space-y-6 mb-10">
     <div class="flex items-center justify-between gap-2">
       <h2 class="text-xl font-semibold">Featured Patterns</h2>
-      <a href="/patterns" class="text-sm text-sparks-teal hover:underline">
-        View all patterns →
-      </a>
+      <a href="/patterns" class="text-sm text-sparks-teal hover:underline"> View all patterns → </a>
     </div>
     <div class="grid gap-4 md:grid-cols-3">
       {patterns.map((p) => <PatternCard pattern={p} />)}
@@ -53,9 +51,7 @@ const stories = (await getCollection("stories")).slice(0, 3);
     <div class="space-y-4">
       <div class="flex items-center justify-between gap-2">
         <h2 class="text-lg font-semibold">Forces</h2>
-        <a href="/forces" class="text-sm text-sparks-teal hover:underline">
-          View all →
-        </a>
+        <a href="/forces" class="text-sm text-sparks-teal hover:underline"> View all → </a>
       </div>
       <div class="grid gap-4">
         {forces.map((f) => <ForceCard force={f} />)}
@@ -65,9 +61,7 @@ const stories = (await getCollection("stories")).slice(0, 3);
     <div class="space-y-4">
       <div class="flex items-center justify-between gap-2">
         <h2 class="text-lg font-semibold">Stories</h2>
-        <a href="/stories" class="text-sm text-sparks-teal hover:underline">
-          View all →
-        </a>
+        <a href="/stories" class="text-sm text-sparks-teal hover:underline"> View all → </a>
       </div>
       <div class="grid gap-4">
         {stories.map((s) => <StoryCard story={s} />)}
@@ -75,5 +69,3 @@ const stories = (await getCollection("stories")).slice(0, 3);
     </div>
   </section>
 </BaseLayout>
-
-

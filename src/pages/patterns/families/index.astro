@@ -1,15 +1,13 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
-const patterns = await getCollection("patterns");
+const patterns = await getCollection('patterns');
 
 // Collect unique pattern families
 const families = Array.from(
   new Set(
-    patterns
-      .map((p) => p.data.patternFamily)
-      .filter((f) => typeof f === "string" && f.length > 0)
+    patterns.map((p) => p.data.patternFamily).filter((f) => typeof f === 'string' && f.length > 0)
   )
 ).sort();
 
@@ -30,16 +28,21 @@ const familyMap = families.map((family) => {
     </header>
 
     <ul class="space-y-4">
-      {familyMap.map(({ family, count }) => (
-        <li>
-          <a href={`/patterns/families/${family}`} class="block px-4 py-3 rounded-xl border border-sparks-amber/30 hover:bg-sparks-sun/20 transition">
-            <div class="flex items-center justify-between">
-              <span class="font-medium">{family}</span>
-              <span class="text-xs text-sparks-ink/60">{count} pattern(s)</span>
-            </div>
-          </a>
-        </li>
-      ))}
+      {
+        familyMap.map(({ family, count }) => (
+          <li>
+            <a
+              href={`/patterns/families/${family}`}
+              class="block px-4 py-3 rounded-xl border border-sparks-amber/30 hover:bg-sparks-sun/20 transition"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-medium">{family}</span>
+                <span class="text-xs text-sparks-ink/60">{count} pattern(s)</span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </section>
 </BaseLayout>

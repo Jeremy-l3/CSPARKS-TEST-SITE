@@ -1,8 +1,8 @@
 ---
-import Card from "../ui/Card.astro";
+import Card from '../ui/Card.astro';
 
 const { force } = Astro.props as {
-  force: import("astro:content").CollectionEntry<"forces">;
+  force: import('astro:content').CollectionEntry<'forces'>;
 };
 ---
 
@@ -14,4 +14,3 @@ const { force } = Astro.props as {
     </p>
   </div>
 </Card>
-

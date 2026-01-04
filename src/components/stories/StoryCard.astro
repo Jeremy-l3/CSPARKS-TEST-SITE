@@ -1,8 +1,8 @@
 ---
-import Card from "../ui/Card.astro";
+import Card from '../ui/Card.astro';
 
 const { story } = Astro.props as {
-  story: import("astro:content").CollectionEntry<"stories">;
+  story: import('astro:content').CollectionEntry<'stories'>;
 };
 ---
 
@@ -12,10 +12,10 @@ const { story } = Astro.props as {
     <p class="text-sm text-sparks-ink/80 line-clamp-3">
       {story.data.summary}
     </p>
-    {story.data.author && (
-      <p class="text-[0.7rem] text-sparks-ink/60 mt-1">
-        By {story.data.author}
-      </p>
-    )}
+    {
+      story.data.author && (
+        <p class="text-[0.7rem] text-sparks-ink/60 mt-1">By {story.data.author}</p>
+      )
+    }
   </div>
 </Card>

@@ -7,7 +7,7 @@ const RecognitionSchema = z.object({
   authors: z.array(z.string()).optional(),
   citations: z.array(z.string()).optional(),
   license: z.string().optional(),
-  narrative: z.string().optional()
+  narrative: z.string().optional(),
 });
 
 /**
@@ -20,8 +20,8 @@ const forces = defineCollection({
     description: z.string(),
     categories: z.array(z.string()).optional(),
     relatedPatterns: z.array(z.string()).optional(),
-    recognition: RecognitionSchema.optional()
-  })
+    recognition: RecognitionSchema.optional(),
+  }),
 });
 
 /**
@@ -44,8 +44,8 @@ const patterns = defineCollection({
     status: z.enum(['draft', 'active', 'retired']).default('draft'),
 
     schemaVersion: z.string().default('1.0'),
-    recognition: RecognitionSchema.optional()
-  })
+    recognition: RecognitionSchema.optional(),
+  }),
 });
 
 /**
@@ -62,12 +62,12 @@ const stories = defineCollection({
     forces: z.array(z.string()).optional(),
 
     author: z.string().optional(),
-    recognition: RecognitionSchema.optional()
-  })
+    recognition: RecognitionSchema.optional(),
+  }),
 });
 
 export const collections = {
   forces,
   patterns,
-  stories
+  stories,
 };

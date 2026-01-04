@@ -1,4 +1,5 @@
 # 🌞 Collaborative Sparks
+
 ### A Solarpunk Pattern Language for Living Collaboration
 
 CSparks is a living, open, solarpunk-inspired pattern library for healthy collaboration.
@@ -55,6 +56,7 @@ Long-term, this repository will expand into:
 ---
 
 ### ✨ Features (Current)
+
 **📘 Patterns, Forces, Stories — fully structured**
 
 - MDX content collections via Astro
@@ -86,6 +88,7 @@ Long-term, this repository will expand into:
 - Easy deploy on Netlify/Vercel
 
 **📁 Clear Architecture**
+
 ```
 src/
   content/
@@ -106,26 +109,32 @@ src/
 - Designed for on-chain metadata evolution
 
 - Room for pattern families, quests, contributor pathways
+
 ---
+
 ### 💻 Development Setup
 
 Clone the repo:
+
 ```
 git clone https://github.com/<your-username>/csparks-astro.git
 cd csparks-astro
 ```
 
 Install dependencies:
+
 ```
 npm install
 ```
 
 Start the dev server:
+
 ```
 npm run dev
 ```
 
 Then open:
+
 ```
 http://localhost:4321/
 ```
@@ -142,13 +151,14 @@ You should see the solarpunk CSparks homepage with navigation to:
 
 ### 🧩 Content Structure
 
-Content lives in src/content/* using MDX files.
+Content lives in src/content/\* using MDX files.
 
 **🌬 Forces**
 
 Atomic tensions, attractors, and landscape features.
 
 Example frontmatter:
+
 ```
 ---
 title: Presence Before Performance
@@ -164,9 +174,11 @@ recognition:
     - "Collaborative Sparks community"
 ---
 ```
+
 **🔥 Patterns**
 
 Practical solutions to recurring problems in collaborative life.
+
 ```
 ---
 title: Pulse of the Circle
@@ -189,9 +201,11 @@ recognition:
     - "Collaborative Sparks community"
 ---
 ```
+
 **📖 Stories**
 
 Narrative expressions that show forces + patterns in real life.
+
 ```
 ---
 title: A Small Circle Finds Its Pulse
@@ -239,6 +253,7 @@ A full contributor guide (including Pattern Templates, Force Templates, Story Te
 ---
 
 ### 🌍 Roadmap
+
 **v0.2 — Contributor Templates**
 
 - Pattern, Force, Story template MDX files
@@ -297,8 +312,8 @@ The CSparks pattern library is inspired by:
 
 **And especially:**
 
-*Everyone who keeps showing up for the work of healthy collaboration.
-This library is a gift grown from your stories, tensions, and experiments.*
+_Everyone who keeps showing up for the work of healthy collaboration.
+This library is a gift grown from your stories, tensions, and experiments._
 
 ---
 

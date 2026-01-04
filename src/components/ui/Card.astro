@@ -2,15 +2,17 @@
 const { href } = Astro.props as { href?: string };
 ---
 
-{href ? (
-  <a
-    href={href}
-    class="block rounded-2xl bg-white/80 shadow-soft-card border border-sparks-amber/20 p-4 hover:-translate-y-0.5 hover:shadow-xl transition"
-  >
-    <slot />
-  </a>
-) : (
-  <div class="rounded-2xl bg-white/80 shadow-soft-card border border-sparks-amber/20 p-4">
-    <slot />
-  </div>
-)}
+{
+  href ? (
+    <a
+      href={href}
+      class="block rounded-2xl bg-white/80 shadow-soft-card border border-sparks-amber/20 p-4 hover:-translate-y-0.5 hover:shadow-xl transition"
+    >
+      <slot />
+    </a>
+  ) : (
+    <div class="rounded-2xl bg-white/80 shadow-soft-card border border-sparks-amber/20 p-4">
+      <slot />
+    </div>
+  )
+}

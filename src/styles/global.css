@@ -1,5 +1,5 @@
 /* Load Tailwind v4 */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Enable typography plugin (for prose, prose-slate, etc.) */
 @plugin "@tailwindcss/typography";

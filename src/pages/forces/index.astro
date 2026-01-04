@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import ForceCard from "../../components/forces/ForceCard.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ForceCard from '../../components/forces/ForceCard.astro';
+import { getCollection } from 'astro:content';
 
-const forces = await getCollection("forces");
+const forces = await getCollection('forces');
 ---
 
 <BaseLayout title="Forces · Collaborative Sparks">
@@ -11,9 +11,9 @@ const forces = await getCollection("forces");
     <header class="space-y-2">
       <h1 class="text-2xl font-semibold">Forces</h1>
       <p class="text-sm text-sparks-ink/80 max-w-2xl">
-        Forces describe the underlying dynamics, tensions, and attractors in
-        the landscape of collaboration. Patterns respond to these forces; stories
-        reveal how they show up in practice.
+        Forces describe the underlying dynamics, tensions, and attractors in the landscape of
+        collaboration. Patterns respond to these forces; stories reveal how they show up in
+        practice.
       </p>
     </header>
 
@@ -22,4 +22,3 @@ const forces = await getCollection("forces");
     </div>
   </section>
 </BaseLayout>
-

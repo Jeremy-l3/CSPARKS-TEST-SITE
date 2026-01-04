@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
 const __dirname = process.cwd();
 
@@ -11,12 +11,12 @@ const __dirname = process.cwd();
 // 2) Fallback: assume a sibling folder "../csparks-authoring"
 const authoringRoot = process.env.CSPARKS_AUTHORING_ROOT
   ? path.resolve(process.env.CSPARKS_AUTHORING_ROOT)
-  : path.resolve(__dirname, "../csparks-authoring");
+  : path.resolve(__dirname, '../csparks-authoring');
 
-const siteContentRoot = path.resolve(__dirname, "src/content");
+const siteContentRoot = path.resolve(__dirname, 'src/content');
 
 // The collections we want to sync
-const collections = ["patterns", "forces", "stories"];
+const collections = ['patterns', 'forces', 'stories'];
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) {
@@ -28,7 +28,7 @@ function copyCollection(collection) {
   const fromDir = path.join(authoringRoot, collection);
   const toDir = path.join(siteContentRoot, collection);
 
-  if (!fs.exists(fromDir) && !fs.existsSync(fromDir)) {
+  if (!fs.existsSync(fromDir)) {
     console.warn(
       `[sync-authoring] Skipping "${collection}" – source folder not found at ${fromDir}`
     );
@@ -39,7 +39,7 @@ function copyCollection(collection) {
 
   const files = fs
     .readdirSync(fromDir)
-    .filter((f) => f.toLowerCase().endsWith(".md") || f.toLowerCase().endsWith(".mdx"));
+    .filter((f) => f.toLowerCase().endsWith('.md') || f.toLowerCase().endsWith('.mdx'));
 
   if (files.length === 0) {
     console.warn(`[sync-authoring] No .md/.mdx files found in ${fromDir}`);
@@ -53,12 +53,12 @@ function copyCollection(collection) {
   }
 }
 
-console.log("[sync-authoring] Authoring root:", authoringRoot);
-console.log("[sync-authoring] Site content root:", siteContentRoot);
-console.log("[sync-authoring] Syncing collections:", collections.join(", "));
+console.log('[sync-authoring] Authoring root:', authoringRoot);
+console.log('[sync-authoring] Site content root:', siteContentRoot);
+console.log('[sync-authoring] Syncing collections:', collections.join(', '));
 
 for (const collection of collections) {
   copyCollection(collection);
 }
 
-console.log("[sync-authoring] Sync complete.");
+console.log('[sync-authoring] Sync complete.');

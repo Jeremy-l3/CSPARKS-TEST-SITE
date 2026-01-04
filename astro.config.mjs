@@ -4,15 +4,11 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   srcDir: 'src',
-  integrations: [
-    mdx()
-  ],
+  integrations: [mdx()],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
   },
   markdown: {
-    syntaxHighlight: 'shiki'
-  }
+    syntaxHighlight: 'shiki',
+  },
 });
-
-

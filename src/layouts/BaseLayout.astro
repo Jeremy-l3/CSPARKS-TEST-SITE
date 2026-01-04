@@ -1,9 +1,9 @@
 ---
-import "../styles/global.css";
+import '../styles/global.css';
 
 const {
-  title = "Collaborative Sparks",
-  description = "A living solarpunk pattern library for healthy collaboration."
+  title = 'Collaborative Sparks',
+  description = 'A living solarpunk pattern library for healthy collaboration.',
 } = Astro.props as {
   title?: string;
   description?: string;
@@ -21,7 +21,9 @@ const {
     <header class="border-b border-sparks-amber/30 bg-sparks-sun/10">
       <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-2xl bg-sparks-teal shadow-soft-card flex items-center justify-center">
+          <div
+            class="w-8 h-8 rounded-2xl bg-sparks-teal shadow-soft-card flex items-center justify-center"
+          >
             <span class="text-xs font-bold text-white">CS</span>
           </div>
           <span class="font-semibold tracking-tight">Collaborative Sparks</span>
@@ -39,7 +41,9 @@ const {
     </main>
 
     <footer class="border-t border-sparks-amber/20 bg-sparks-sun/5">
-      <div class="max-w-6xl mx-auto px-4 py-4 text-xs text-sparks-ink/70 flex flex-wrap items-center justify-between gap-2">
+      <div
+        class="max-w-6xl mx-auto px-4 py-4 text-xs text-sparks-ink/70 flex flex-wrap items-center justify-between gap-2"
+      >
         <span>CSparks · a living collaboration pattern library</span>
         <span>Future layers: Hestia, open stewardship, dapp workbench ✨</span>
       </div>
