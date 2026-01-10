@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuideCard from '../../components/guides/GuideCard.astro';
+import { getCollection } from 'astro:content';
+
+const guides = await getCollection('guides');
+
+// Sort by order within category, then alphabetically
+const sortedGuides = guides.sort((a, b) => {
+  if (a.data.category !== b.data.category) {
+    return a.data.category.localeCompare(b.data.category);
+  }
+  if (a.data.order !== undefined && b.data.order !== undefined) {
+    return a.data.order - b.data.order;
+  }
+  if (a.data.order !== undefined) return -1;
+  if (b.data.order !== undefined) return 1;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+// Get unique categories
+const categories = [...new Set(guides.map((g) => g.data.category))];
+
+const categoryLabels: Record<string, string> = {
+  orientation: 'Orientation',
+  'how-to': 'How-to',
+  'learning-path': 'Learning Path',
+};
+---
+
+<BaseLayout title="Guides · Collaborative Sparks">
+  <section class="space-y-6">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-semibold">Guides</h1>
+      <p class="text-sm text-sparks-ink/80 max-w-2xl">
+        Guides help you orient to the library and learn how to engage. Whether you are new to
+        CSparks or looking for a specific pathway, start here.
+      </p>
+    </header>
+
+    <!-- Category filter -->
+    <div class="flex flex-wrap gap-2" id="category-filters">
+      <button
+        data-category="all"
+        class="category-btn px-3 py-1 text-sm rounded-full border border-sparks-amber/30 bg-sparks-teal text-white"
+      >
+        All
+      </button>
+      {
+        categories.map((cat) => (
+          <button
+            data-category={cat}
+            class="category-btn px-3 py-1 text-sm rounded-full border border-sparks-amber/30 hover:bg-sparks-sky/10"
+          >
+            {categoryLabels[cat] || cat}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" id="guides-grid">
+      {sortedGuides.map((g) => <div data-category={g.data.category}><GuideCard guide={g} /></div>)}
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.category-btn');
+    const cards = document.querySelectorAll('#guides-grid > div');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+
+        // Update active button
+        buttons.forEach((b) => {
+          b.classList.remove('bg-sparks-teal', 'text-white');
+          b.classList.add('hover:bg-sparks-sky/10');
+        });
+        btn.classList.add('bg-sparks-teal', 'text-white');
+        btn.classList.remove('hover:bg-sparks-sky/10');
+
+        // Filter cards
+        cards.forEach((card) => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>

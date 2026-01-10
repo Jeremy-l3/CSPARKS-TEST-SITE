@@ -66,8 +66,64 @@ const stories = defineCollection({
   }),
 });
 
+/**
+ * Guides
+ * Orientation docs, how-to guides, learning paths
+ */
+const guides = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    category: z
+      .enum(['orientation', 'how-to', 'learning-path'])
+      .default('orientation'),
+    order: z.number().optional(),
+
+    relatedPatterns: z.array(z.string()).optional(),
+    relatedForces: z.array(z.string()).optional(),
+    relatedGuides: z.array(z.string()).optional(),
+
+    status: z.enum(['draft', 'active', 'retired']).default('draft'),
+    recognition: RecognitionSchema.optional(),
+  }),
+});
+
+/**
+ * References
+ * Epistemic grounding, theory, citations, source materials
+ */
+const references = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    category: z
+      .enum(['theory', 'source', 'glossary', 'bibliography'])
+      .default('source'),
+
+    citation: z
+      .object({
+        authors: z.array(z.string()).optional(),
+        year: z.string().optional(),
+        publication: z.string().optional(),
+        url: z.string().url().optional(),
+        doi: z.string().optional(),
+      })
+      .optional(),
+
+    relatedPatterns: z.array(z.string()).optional(),
+    relatedForces: z.array(z.string()).optional(),
+
+    status: z.enum(['draft', 'active', 'retired']).default('draft'),
+    recognition: RecognitionSchema.optional(),
+  }),
+});
+
 export const collections = {
   forces,
   patterns,
   stories,
+  guides,
+  references,
 };

@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Roles data - could be moved to a separate file if it grows
+const roles = [
+  {
+    id: 'pattern-librarian',
+    title: 'Pattern Librarian',
+    tagline: 'Tends the pattern collection',
+    description:
+      'Curates, maintains, and contextualizes patterns. Protects conceptual integrity without ossifying meaning. Tends pattern families, forces relationships, and evolution notes.',
+    color: 'sparks-teal',
+  },
+  {
+    id: 'forces-cartographer',
+    title: 'Forces Cartographer',
+    tagline: 'Maps the landscape of tensions',
+    description:
+      'Discovers and names recurring tensions. Maintains the Forces Registry. Trains others in "force-sensing literacy" - the ability to recognize forces at play in collaborative situations.',
+    color: 'sparks-amber',
+  },
+  {
+    id: 'storyteller',
+    title: 'Storyteller',
+    tagline: 'Weaves narratives around the library',
+    description:
+      'Creates narratives that touch the library. Stories may live anywhere - blogs, talks, games, curricula. Frontmatter callouts link stories back to forces and patterns.',
+    color: 'sparks-sun',
+  },
+  {
+    id: 'weaver',
+    title: 'Weaver',
+    tagline: 'Connects across domains',
+    description:
+      'Connects patterns to practices, domains, and communities. Sees cross-domain resonance. Helps avoid siloed pattern growth by building bridges between different areas of the library.',
+    color: 'sparks-leaf',
+  },
+  {
+    id: 'steward',
+    title: 'Steward',
+    tagline: 'Holds care for community health',
+    description:
+      'Holds care for tone, norms, and social health. Especially relevant in Open Garage and onboarding spaces. Ensures the community remains welcoming and generative.',
+    color: 'sparks-sky',
+  },
+  {
+    id: 'source',
+    title: 'Source',
+    tagline: 'Holds creative authority',
+    description:
+      'Holds creative authority for domains or initiatives. Integrated carefully with sociocratic drivers. Sources provide vision and direction while enabling distributed contribution.',
+    color: 'sparks-ink',
+  },
+];
+---
+
+<BaseLayout
+  title="Roles · Collaborative Sparks"
+  description="Learn about the different roles in the Collaborative Sparks ecosystem."
+>
+  <article class="space-y-8 max-w-4xl">
+    <header class="space-y-3">
+      <h1 class="text-3xl font-semibold">Roles in the CSparks Ecosystem</h1>
+      <p class="text-lg text-sparks-ink/80">
+        Roles are <strong>orientation lenses</strong>, not job titles. They exist to support
+        literacy, care, and coherence in the library.
+      </p>
+    </header>
+
+    <section class="bg-sparks-sun/20 rounded-lg p-6 space-y-3">
+      <h2 class="text-lg font-semibold">Learning Paths First</h2>
+      <p class="text-sparks-ink/80">
+        Roles are primarily <em>learning paths</em>, contribution paths second. Each role represents
+        a way of seeing and engaging with the library. You don't need to "become" a role - you can
+        simply use roles as lenses to explore different aspects of CSparks.
+      </p>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="text-xl font-semibold">The Roles</h2>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        {
+          roles.map((role) => (
+            <div class="bg-white/80 rounded-lg p-5 border border-sparks-amber/20 space-y-3">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="font-semibold text-lg">{role.title}</h3>
+                  <p class={`text-sm text-${role.color}`}>{role.tagline}</p>
+                </div>
+              </div>
+              <p class="text-sm text-sparks-ink/80">{role.description}</p>
+              <p class="text-xs text-sparks-ink/50 italic">Learning path coming soon</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-xl font-semibold">How Roles Work Together</h2>
+      <p class="text-sparks-ink/80">
+        The roles form an ecosystem of care and literacy around the library:
+      </p>
+      <ul class="text-sm text-sparks-ink/80 list-disc pl-4 space-y-2">
+        <li>
+          <strong>Pattern Librarians</strong> and <strong>Forces Cartographers</strong> tend the structural
+          integrity of the library
+        </li>
+        <li>
+          <strong>Storytellers</strong> create the narrative bridges that make patterns accessible
+        </li>
+        <li>
+          <strong>Weavers</strong> ensure the library stays connected rather than siloed
+        </li>
+        <li>
+          <strong>Stewards</strong> maintain the social health of the community
+        </li>
+        <li>
+          <strong>Sources</strong> provide vision and creative direction for initiatives
+        </li>
+      </ul>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-xl font-semibold">Future Development</h2>
+      <p class="text-sparks-ink/80">We are developing role-based learning paths that will include:</p>
+      <ul class="text-sm text-sparks-ink/80 list-disc pl-4 space-y-1">
+        <li>Guided sequences through relevant content</li>
+        <li>Practice exercises and reflection prompts</li>
+        <li>Small, achievable quests for each role</li>
+        <li>Recognition for role-based contributions</li>
+      </ul>
+    </section>
+
+    <section class="border-t border-sparks-amber/30 pt-6 space-y-4">
+      <h2 class="text-xl font-semibold">Get Started</h2>
+      <p class="text-sparks-ink/80">
+        Curious about a particular role? The best way to start is to explore the library through
+        that lens:
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="/patterns"
+          class="px-4 py-2 border border-sparks-teal text-sparks-teal rounded-lg hover:bg-sparks-teal/10 transition"
+        >
+          Browse Patterns (Librarian lens)
+        </a>
+        <a
+          href="/forces"
+          class="px-4 py-2 border border-sparks-teal text-sparks-teal rounded-lg hover:bg-sparks-teal/10 transition"
+        >
+          Explore Forces (Cartographer lens)
+        </a>
+        <a
+          href="/stories"
+          class="px-4 py-2 border border-sparks-teal text-sparks-teal rounded-lg hover:bg-sparks-teal/10 transition"
+        >
+          Read Stories (Storyteller lens)
+        </a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

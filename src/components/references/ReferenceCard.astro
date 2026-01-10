@@ -1,0 +1,34 @@
+---
+import Card from '../ui/Card.astro';
+
+const { reference } = Astro.props as {
+  reference: import('astro:content').CollectionEntry<'references'>;
+};
+
+const categoryLabels: Record<string, string> = {
+  theory: 'Theory',
+  source: 'Source',
+  glossary: 'Glossary',
+  bibliography: 'Bibliography',
+};
+---
+
+<Card href={`/references/${reference.slug}`}>
+  <div class="flex flex-col gap-2">
+    <div class="flex items-center gap-2">
+      <span class="text-xs px-2 py-0.5 rounded-full bg-sparks-leaf/20 text-sparks-leaf font-medium">
+        {categoryLabels[reference.data.category] || reference.data.category}
+      </span>
+    </div>
+    <h3 class="font-semibold text-sparks-ink">{reference.data.title}</h3>
+    <p class="text-sm text-sparks-ink/80 line-clamp-3">
+      {reference.data.summary}
+    </p>
+    {reference.data.citation?.authors && (
+      <p class="text-xs text-sparks-ink/60">
+        {reference.data.citation.authors.join(', ')}
+        {reference.data.citation.year && ` (${reference.data.citation.year})`}
+      </p>
+    )}
+  </div>
+</Card>

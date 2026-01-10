@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props as {
+  guide: import('astro:content').CollectionEntry<'guides'>;
+};
+
+const { Content } = await render(guide);
+
+const categoryLabels: Record<string, string> = {
+  orientation: 'Orientation',
+  'how-to': 'How-to',
+  'learning-path': 'Learning Path',
+};
+
+// Get related patterns
+const patterns = guide.data.relatedPatterns
+  ? await getCollection('patterns', ({ slug }) => guide.data.relatedPatterns?.includes(slug))
+  : [];
+
+// Get related forces
+const forces = guide.data.relatedForces
+  ? await getCollection('forces', ({ slug }) => guide.data.relatedForces?.includes(slug))
+  : [];
+
+// Get related guides
+const relatedGuides = guide.data.relatedGuides
+  ? await getCollection('guides', ({ slug }) => guide.data.relatedGuides?.includes(slug))
+  : [];
+---
+
+<BaseLayout title={`${guide.data.title} · Guide`}>
+  <article class="space-y-6 max-w-3xl">
+    <header class="space-y-3">
+      <div class="flex items-center gap-2">
+        <span class="text-xs uppercase tracking-wide text-sparks-ink/60">Guide</span>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-sparks-sky/20 text-sparks-sky font-medium">
+          {categoryLabels[guide.data.category] || guide.data.category}
+        </span>
+      </div>
+      <h1 class="text-3xl font-semibold">{guide.data.title}</h1>
+      <p class="text-sparks-ink/80">{guide.data.summary}</p>
+    </header>
+
+    <section class="prose prose-sparks">
+      <Content />
+    </section>
+
+    {
+      patterns.length > 0 && (
+        <section class="space-y-3">
+          <h2 class="text-lg font-semibold">Related Patterns</h2>
+          <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+            {patterns.map((p) => (
+              <li>
+                <a href={`/patterns/${p.slug}`} class="text-sparks-teal hover:underline">
+                  {p.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      forces.length > 0 && (
+        <section class="space-y-3">
+          <h2 class="text-lg font-semibold">Related Forces</h2>
+          <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+            {forces.map((f) => (
+              <li>
+                <a href={`/forces/${f.slug}`} class="text-sparks-teal hover:underline">
+                  {f.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      relatedGuides.length > 0 && (
+        <section class="space-y-3">
+          <h2 class="text-lg font-semibold">Related Guides</h2>
+          <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+            {relatedGuides.map((g) => (
+              <li>
+                <a href={`/guides/${g.slug}`} class="text-sparks-teal hover:underline">
+                  {g.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section
+      class="border-t border-sparks-amber/30 pt-4 text-xs text-sparks-ink/70 flex flex-wrap gap-3"
+    >
+      {
+        guide.data.recognition?.authors && (
+          <span>Authors: {guide.data.recognition.authors.join(', ')}</span>
+        )
+      }
+      {guide.data.recognition?.license && <span>License: {guide.data.recognition.license}</span>}
+      {guide.data.status && <span>Status: {guide.data.status}</span>}
+    </section>
+  </article>
+</BaseLayout>

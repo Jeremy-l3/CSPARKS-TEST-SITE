@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const references = await getCollection('references');
+  return references.map((reference) => ({
+    params: { slug: reference.slug },
+    props: { reference },
+  }));
+}
+
+const { reference } = Astro.props as {
+  reference: import('astro:content').CollectionEntry<'references'>;
+};
+
+const { Content } = await render(reference);
+
+const categoryLabels: Record<string, string> = {
+  theory: 'Theory',
+  source: 'Source',
+  glossary: 'Glossary',
+  bibliography: 'Bibliography',
+};
+
+// Get related patterns
+const patterns = reference.data.relatedPatterns
+  ? await getCollection('patterns', ({ slug }) => reference.data.relatedPatterns?.includes(slug))
+  : [];
+
+// Get related forces
+const forces = reference.data.relatedForces
+  ? await getCollection('forces', ({ slug }) => reference.data.relatedForces?.includes(slug))
+  : [];
+---
+
+<BaseLayout title={`${reference.data.title} · Reference`}>
+  <article class="space-y-6 max-w-3xl">
+    <header class="space-y-3">
+      <div class="flex items-center gap-2">
+        <span class="text-xs uppercase tracking-wide text-sparks-ink/60">Reference</span>
+        <span
+          class="text-xs px-2 py-0.5 rounded-full bg-sparks-leaf/20 text-sparks-leaf font-medium"
+        >
+          {categoryLabels[reference.data.category] || reference.data.category}
+        </span>
+      </div>
+      <h1 class="text-3xl font-semibold">{reference.data.title}</h1>
+      <p class="text-sparks-ink/80">{reference.data.summary}</p>
+    </header>
+
+    {
+      reference.data.citation && (
+        <section class="bg-sparks-sun/10 rounded-lg p-4 space-y-2">
+          <h2 class="text-sm font-semibold text-sparks-ink/70">Citation</h2>
+          <div class="text-sm text-sparks-ink/80">
+            {reference.data.citation.authors && (
+              <p>
+                <span class="font-medium">Authors:</span>{' '}
+                {reference.data.citation.authors.join(', ')}
+              </p>
+            )}
+            {reference.data.citation.year && (
+              <p>
+                <span class="font-medium">Year:</span> {reference.data.citation.year}
+              </p>
+            )}
+            {reference.data.citation.publication && (
+              <p>
+                <span class="font-medium">Publication:</span> {reference.data.citation.publication}
+              </p>
+            )}
+            {reference.data.citation.url && (
+              <p>
+                <span class="font-medium">URL:</span>{' '}
+                <a
+                  href={reference.data.citation.url}
+                  class="text-sparks-teal hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {reference.data.citation.url}
+                </a>
+              </p>
+            )}
+            {reference.data.citation.doi && (
+              <p>
+                <span class="font-medium">DOI:</span> {reference.data.citation.doi}
+              </p>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="prose prose-sparks">
+      <Content />
+    </section>
+
+    {
+      patterns.length > 0 && (
+        <section class="space-y-3">
+          <h2 class="text-lg font-semibold">Related Patterns</h2>
+          <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+            {patterns.map((p) => (
+              <li>
+                <a href={`/patterns/${p.slug}`} class="text-sparks-teal hover:underline">
+                  {p.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      forces.length > 0 && (
+        <section class="space-y-3">
+          <h2 class="text-lg font-semibold">Related Forces</h2>
+          <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+            {forces.map((f) => (
+              <li>
+                <a href={`/forces/${f.slug}`} class="text-sparks-teal hover:underline">
+                  {f.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section
+      class="border-t border-sparks-amber/30 pt-4 text-xs text-sparks-ink/70 flex flex-wrap gap-3"
+    >
+      {
+        reference.data.recognition?.authors && (
+          <span>Authors: {reference.data.recognition.authors.join(', ')}</span>
+        )
+      }
+      {
+        reference.data.recognition?.license && (
+          <span>License: {reference.data.recognition.license}</span>
+        )
+      }
+      {reference.data.status && <span>Status: {reference.data.status}</span>}
+    </section>
+  </article>
+</BaseLayout>

@@ -60,6 +60,8 @@ When modifying existing content:
   - patterns: `src/content/patterns/`
   - stories: `src/content/stories/`
   - forces: `src/content/forces/`
+  - guides: `src/content/guides/`
+  - references: `src/content/references/`
 - Schemas:
   - frontmatter schemas: `src/content.config.ts` (Zod schemas for all content types)
 - Navigation / index:
@@ -153,6 +155,39 @@ Optional keys:
 - `relatedPatterns`: string[]
 - `recognition`: { authors?, citations?, license?, narrative? }
 
+### guide
+
+Required keys:
+
+- `title`: string
+- `summary`: string
+
+Optional keys:
+
+- `category`: "orientation" | "how-to" | "learning-path" (default: "orientation")
+- `order`: number
+- `relatedPatterns`: string[]
+- `relatedForces`: string[]
+- `relatedGuides`: string[]
+- `status`: "draft" | "active" | "retired" (default: "draft")
+- `recognition`: { authors?, citations?, license?, narrative? }
+
+### reference
+
+Required keys:
+
+- `title`: string
+- `summary`: string
+
+Optional keys:
+
+- `category`: "theory" | "source" | "glossary" | "bibliography" (default: "source")
+- `citation`: { authors?, year?, publication?, url?, doi? }
+- `relatedPatterns`: string[]
+- `relatedForces`: string[]
+- `status`: "draft" | "active" | "retired" (default: "draft")
+- `recognition`: { authors?, citations?, license?, narrative? }
+
 Rules:
 
 - Frontmatter must validate against schema in `src/content.config.ts`.
@@ -179,6 +214,21 @@ Rules:
 - Create file in `src/content/stories/<slug>.mdx`
 - Use the story frontmatter template
 - Ensure patterns/forces referenced exist
+- Run `npm run build` to verify
+
+### Add a new Guide page
+
+- Create file in `src/content/guides/<slug>.mdx`
+- Use the guide frontmatter template
+- Set appropriate category (orientation, how-to, learning-path)
+- Run `npm run build` to verify
+
+### Add a new Reference page
+
+- Create file in `src/content/references/<slug>.mdx`
+- Use the reference frontmatter template
+- Set appropriate category (theory, source, glossary, bibliography)
+- Include citation object if applicable
 - Run `npm run build` to verify
 
 ### Update schema + migrate content

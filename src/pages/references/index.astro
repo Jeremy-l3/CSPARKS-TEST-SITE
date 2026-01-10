@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReferenceCard from '../../components/references/ReferenceCard.astro';
+import { getCollection } from 'astro:content';
+
+const references = await getCollection('references');
+
+// Sort alphabetically by title
+const sortedReferences = references.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+// Get unique categories
+const categories = [...new Set(references.map((r) => r.data.category))];
+
+const categoryLabels: Record<string, string> = {
+  theory: 'Theory',
+  source: 'Source',
+  glossary: 'Glossary',
+  bibliography: 'Bibliography',
+};
+---
+
+<BaseLayout title="References · Collaborative Sparks">
+  <section class="space-y-6">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-semibold">References</h1>
+      <p class="text-sm text-sparks-ink/80 max-w-2xl">
+        References provide epistemic grounding for the library. These are the theories, sources, and
+        intellectual lineages that inform the patterns and forces in CSparks.
+      </p>
+    </header>
+
+    <!-- Category filter -->
+    <div class="flex flex-wrap gap-2" id="category-filters">
+      <button
+        data-category="all"
+        class="category-btn px-3 py-1 text-sm rounded-full border border-sparks-amber/30 bg-sparks-teal text-white"
+      >
+        All
+      </button>
+      {
+        categories.map((cat) => (
+          <button
+            data-category={cat}
+            class="category-btn px-3 py-1 text-sm rounded-full border border-sparks-amber/30 hover:bg-sparks-leaf/10"
+          >
+            {categoryLabels[cat] || cat}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" id="references-grid">
+      {
+        sortedReferences.map((r) => (
+          <div data-category={r.data.category}>
+            <ReferenceCard reference={r} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.category-btn');
+    const cards = document.querySelectorAll('#references-grid > div');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+
+        // Update active button
+        buttons.forEach((b) => {
+          b.classList.remove('bg-sparks-teal', 'text-white');
+          b.classList.add('hover:bg-sparks-leaf/10');
+        });
+        btn.classList.add('bg-sparks-teal', 'text-white');
+        btn.classList.remove('hover:bg-sparks-leaf/10');
+
+        // Filter cards
+        cards.forEach((card) => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>

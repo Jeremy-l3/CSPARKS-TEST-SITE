@@ -4,21 +4,89 @@ import ForceCard from '../../components/forces/ForceCard.astro';
 import { getCollection } from 'astro:content';
 
 const forces = await getCollection('forces');
+
+// Collect all unique categories across forces
+const allCategories = new Set<string>();
+forces.forEach((f) => {
+  f.data.categories?.forEach((cat) => allCategories.add(cat));
+});
+const categories = Array.from(allCategories).sort();
 ---
 
-<BaseLayout title="Forces · Collaborative Sparks">
+<BaseLayout title="Forces Registry · Collaborative Sparks">
   <section class="space-y-6">
     <header class="space-y-2">
-      <h1 class="text-2xl font-semibold">Forces</h1>
+      <h1 class="text-2xl font-semibold">Forces Registry</h1>
       <p class="text-sm text-sparks-ink/80 max-w-2xl">
-        Forces describe the underlying dynamics, tensions, and attractors in the landscape of
-        collaboration. Patterns respond to these forces; stories reveal how they show up in
-        practice.
+        Forces are the <strong>semantic backbone</strong> of the library. They describe persistent tensions,
+        dynamics, and attractors in the landscape of collaboration. Forces have stable names but evolving
+        descriptions - they are conditions to navigate, not problems to solve.
+      </p>
+      <p class="text-xs text-sparks-ink/60">
+        {forces.length} forces{categories.length > 0 && ` across ${categories.length} categories`}
       </p>
     </header>
 
-    <div class="grid gap-4 md:grid-cols-3">
-      {forces.map((f) => <ForceCard force={f} />)}
+    {
+      categories.length > 0 && (
+        <div class="flex flex-wrap gap-2" id="category-filters">
+          <button
+            data-category="all"
+            class="category-btn px-3 py-1 text-sm rounded-full border border-sparks-amber/30 bg-sparks-teal text-white"
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              data-category={cat}
+              class="category-btn px-3 py-1 text-sm rounded-full border border-sparks-amber/30 hover:bg-sparks-amber/10"
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="grid gap-4 md:grid-cols-3" id="forces-grid">
+      {
+        forces.map((f) => (
+          <div data-categories={f.data.categories?.join(',') || ''}>
+            <ForceCard force={f} />
+          </div>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.category-btn');
+    const cards = document.querySelectorAll('#forces-grid > div');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+
+        // Update active button
+        buttons.forEach((b) => {
+          b.classList.remove('bg-sparks-teal', 'text-white');
+          b.classList.add('hover:bg-sparks-amber/10');
+        });
+        btn.classList.add('bg-sparks-teal', 'text-white');
+        btn.classList.remove('hover:bg-sparks-amber/10');
+
+        // Filter cards
+        cards.forEach((card) => {
+          const cardCategories = card.dataset.categories?.split(',') || [];
+          if (category === 'all' || cardCategories.includes(category)) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>

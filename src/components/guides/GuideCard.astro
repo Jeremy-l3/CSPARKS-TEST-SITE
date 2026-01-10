@@ -1,0 +1,27 @@
+---
+import Card from '../ui/Card.astro';
+
+const { guide } = Astro.props as {
+  guide: import('astro:content').CollectionEntry<'guides'>;
+};
+
+const categoryLabels: Record<string, string> = {
+  orientation: 'Orientation',
+  'how-to': 'How-to',
+  'learning-path': 'Learning Path',
+};
+---
+
+<Card href={`/guides/${guide.slug}`}>
+  <div class="flex flex-col gap-2">
+    <div class="flex items-center gap-2">
+      <span class="text-xs px-2 py-0.5 rounded-full bg-sparks-sky/20 text-sparks-sky font-medium">
+        {categoryLabels[guide.data.category] || guide.data.category}
+      </span>
+    </div>
+    <h3 class="font-semibold text-sparks-ink">{guide.data.title}</h3>
+    <p class="text-sm text-sparks-ink/80 line-clamp-3">
+      {guide.data.summary}
+    </p>
+  </div>
+</Card>
