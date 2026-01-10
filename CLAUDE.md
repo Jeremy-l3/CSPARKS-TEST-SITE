@@ -200,16 +200,122 @@ Rules:
 
 ### Add a new Pattern page
 
-- Create file in `src/content/patterns/<slug>.mdx`
-- Use the pattern frontmatter template (all required keys)
-- Ensure forces referenced in `forces` array exist
-- Run `npm run build` to verify
+1. Create file in `src/content/patterns/<slug>.mdx`
+2. Add frontmatter with required keys (id, title, summary, forces)
+3. Write MDX body with pattern sections
+4. Create force entries for any new forces referenced
+5. Run `npm run build` to verify
+
+**Example pattern file** (`src/content/patterns/blurry.mdx`):
+
+```mdx
+---
+type: pattern
+id: blurry
+title: Blurry
+summary: >
+  Adopt a blurry stance: engage with networks through double vision that allows
+  you to act within a chosen frame while remaining open to shifting realities.
+status: draft
+tags:
+  - learners-stance
+  - complexity
+forces:
+  - complexity-resists-simplification
+  - frameworks-become-brittle
+  - acting-changes-the-network
+related:
+  - collaborative-reflection
+  - itchy
+authors:
+  - Collaborative Sparks community
+created: 2025-06-13
+---
+
+## Context
+
+[Describe the situation where this pattern applies...]
+
+## Problem / Tension
+
+[Describe what goes wrong without this pattern...]
+
+## Forces at Play
+
+- **Force Name**: Description of how this force operates
+- **Another Force**: Description...
+
+## Solution
+
+**[Core solution statement in bold.]**
+
+This includes:
+- Specific practice or behavior
+- Another practice...
+
+## Implementation
+
+- Concrete step to apply this pattern
+- Another step...
+
+## Examples
+
+- A specific example of this pattern in action
+- Another example...
+
+## Failure Modes
+
+- **Failure mode name**: How this pattern can go wrong
+- **Another failure**: Description...
+
+## Recognition
+
+You'll know it's working when:
+- Observable sign of success
+- Another sign...
+
+## Related Patterns
+
+- [[Related Pattern Name]]
+- [[Another Related Pattern]]
+```
 
 ### Add a new Force page
 
-- Create file in `src/content/forces/<slug>.mdx`
-- Use the force frontmatter template
-- Run `npm run build` to verify
+Forces are typically derived from patterns—extracted from the "Forces at Play" section. When adding patterns, create force entries for any new force slugs referenced.
+
+1. Create file in `src/content/forces/<slug>.mdx`
+2. Add frontmatter (title, description, categories, relatedPatterns)
+3. Write MDX body with additional prose (renders below description)
+4. Run `npm run build` to verify
+
+**Example force file** (`src/content/forces/complexity-resists-simplification.mdx`):
+
+```mdx
+---
+title: Complexity Resists Simplification
+description: >
+  Complexity resists simplification but demands action—we cannot wait for
+  full understanding, yet our simplified models inevitably miss crucial dynamics.
+categories:
+  - complexity
+  - tension
+relatedPatterns:
+  - blurry
+  - clumsy
+---
+
+The most important systems are too complex to fully model, yet we must still
+act within them. This tension between the need for actionable understanding
+and the irreducible complexity of living systems is fundamental to all
+network practice.
+```
+
+**Workflow note**: When importing a batch of patterns:
+1. Create all pattern files first
+2. Extract force slugs from all patterns' `forces` arrays
+3. Create force entries for each unique slug
+4. Run build to verify all references resolve
 
 ### Add a new Story page
 
