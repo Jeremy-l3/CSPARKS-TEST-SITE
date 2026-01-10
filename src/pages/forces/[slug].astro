@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { getPatternsForForce } from '../../lib/relationships';
 
 export async function getStaticPaths() {
@@ -16,6 +16,7 @@ const { force } = Astro.props as {
 };
 
 const patterns = await getPatternsForForce(force.slug);
+const { Content } = await render(force);
 ---
 
 <BaseLayout title={`${force.data.title} · Force`}>
@@ -37,6 +38,10 @@ const patterns = await getPatternsForForce(force.slug);
       <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
         {force.data.description}
       </p>
+    </section>
+
+    <section class="prose prose-sparks max-w-none">
+      <Content />
     </section>
 
     {
