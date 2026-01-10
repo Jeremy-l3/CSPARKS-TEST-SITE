@@ -109,22 +109,24 @@ When making changes:
 
 ### pattern
 
+Frontmatter is for indexing/IA; the MDX body contains the rich pattern form (Context, Problem, Forces at Play, Solution, Implementation, Examples, Failure Modes, Recognition).
+
 Required keys:
 
+- `type`: "pattern" (literal, has default)
+- `id`: string (stable identifier, never changes once published)
 - `title`: string
-- `context`: string
-- `problem`: string
-- `forces`: string[] (references to force slugs)
-- `solution`: string
-- `implementation`: string
+- `summary`: string (1-3 sentence description for cards/listings)
+- `forces`: string[] (array of force IDs - the key bridge to Forces Registry)
 
 Optional keys:
 
-- `examples`: string[]
-- `patternFamily`: string
-- `version`: string (default: "1.0.0")
-- `status`: "draft" | "active" | "retired" (default: "draft")
-- `schemaVersion`: string (default: "1.0")
+- `status`: "draft" | "tested" | "stable" (default: "draft")
+- `tags`: string[] (light taxonomy for filtering)
+- `related`: string[] (links to other pattern/story/guide IDs)
+- `authors`: string[] (attribution + stewardship)
+- `created`: date
+- `updated`: date
 - `recognition`: { authors?, citations?, license?, narrative? }
 
 ### story

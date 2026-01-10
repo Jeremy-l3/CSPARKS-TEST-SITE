@@ -5,16 +5,18 @@ import { getCollection } from 'astro:content';
 
 const patterns = await getCollection('patterns');
 
-// Hard-coded curated family placeholders
-const curatedFamilies = ['Sociocracy 3.0', 'Teal Organizations', 'Space Trains'] as const;
+// Collect unique tags across all patterns
+const allTags = new Set<string>();
+patterns.forEach((p) => {
+  p.data.tags?.forEach((tag) => allTags.add(tag));
+});
+const tags = Array.from(allTags).sort();
 
-const familyDescriptions: Record<string, string> = {
-  'Sociocracy 3.0':
-    'Patterns and tools for distributed governance, consent, and continuous learning.',
-  'Teal Organizations': 'Ecosystems of self-management, wholeness, and evolutionary purpose.',
-  'Space Trains':
-    'Speculative sensemaking, coordination architectures, and cosmic-scale collaboration metaphors.',
-};
+// Count patterns per tag
+const tagCounts = tags.map((tag) => ({
+  tag,
+  count: patterns.filter((p) => p.data.tags?.includes(tag)).length,
+}));
 ---
 
 <BaseLayout title="Patterns · Collaborative Sparks">
@@ -23,7 +25,7 @@ const familyDescriptions: Record<string, string> = {
     <header class="flex items-center justify-between gap-2">
       <h2 class="text-lg font-semibold">Your liked patterns</h2>
       <p class="text-xs text-sparks-ink/60">
-        This shelf shows patterns you’ve starred on this device.
+        This shelf shows patterns you've starred on this device.
       </p>
     </header>
 
@@ -34,38 +36,31 @@ const familyDescriptions: Record<string, string> = {
     </div>
   </section>
 
-  <!-- Curated Pattern Families section -->
-  <section class="space-y-4 mb-10">
-    <header class="flex items-center justify-between">
-      <h2 class="text-lg font-semibold">Pattern families</h2>
-      <a href="/patterns/families" class="text-xs text-sparks-teal hover:underline">
-        View all families →
-      </a>
-    </header>
+  <!-- Tags section -->
+  {
+    tags.length > 0 && (
+      <section class="space-y-4 mb-10">
+        <header class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Browse by tag</h2>
+          <a href="/patterns/families" class="text-xs text-sparks-teal hover:underline">
+            View all tags →
+          </a>
+        </header>
 
-    <div class="grid gap-3 md:grid-cols-3">
-      {
-        curatedFamilies.map((fam) => {
-          const count = patterns.filter((p) => p.data.patternFamily === fam).length;
-
-          return (
+        <div class="flex flex-wrap gap-2">
+          {tagCounts.map(({ tag, count }) => (
             <a
-              href={`/patterns/families/${fam}`}
-              class="p-4 rounded-2xl shadow-soft-card border border-sparks-amber/30 bg-white/80 hover:bg-sparks-sun/20 transition flex flex-col gap-2"
+              href={`/patterns/families/${encodeURIComponent(tag)}`}
+              class="px-3 py-1.5 rounded-full border border-sparks-amber/30 bg-white/80 hover:bg-sparks-sun/20 transition text-sm"
             >
-              <h3 class="font-semibold text-sparks-ink">{fam}</h3>
-              <p class="text-xs text-sparks-ink/70">
-                {familyDescriptions[fam] ?? 'A neighborhood of related collaboration patterns.'}
-              </p>
-              <p class="text-[0.7rem] text-sparks-ink/60 mt-auto">
-                {count} pattern{count === 1 ? '' : 's'}
-              </p>
+              {tag}
+              <span class="text-xs text-sparks-ink/50 ml-1">({count})</span>
             </a>
-          );
-        })
-      }
-    </div>
-  </section>
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   <!-- Main Patterns section -->
   <section class="space-y-6">

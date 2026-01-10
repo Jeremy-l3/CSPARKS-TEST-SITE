@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { getForcesForPattern, getStoriesForPatternSlug } from '../../lib/relationships';
 import LikeButton from '../../components/ui/LikeButton.astro';
 
@@ -16,80 +16,93 @@ const { pattern } = Astro.props as {
   pattern: import('astro:content').CollectionEntry<'patterns'>;
 };
 
+const { Content } = await render(pattern);
 const forces = await getForcesForPattern(pattern);
 const stories = await getStoriesForPatternSlug(pattern.slug);
+
+// Get related patterns if any
+const relatedPatterns = pattern.data.related
+  ? await getCollection('patterns', ({ data }) =>
+      pattern.data.related?.includes(data.id)
+    )
+  : [];
 ---
 
 <BaseLayout title={`${pattern.data.title} · Pattern`}>
-  <article class="space-y-6">
+  <article class="space-y-6 max-w-4xl">
     <header class="space-y-3">
-      <p class="text-xs uppercase tracking-wide text-sparks-ink/60">Pattern</p>
-      <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-xs uppercase tracking-wide text-sparks-ink/60">Pattern</span>
+        <span
+          class="text-xs px-2 py-0.5 rounded-full bg-sparks-teal/10 text-sparks-teal font-medium"
+        >
+          {pattern.data.status}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between gap-4">
         <h1 class="text-3xl font-semibold">{pattern.data.title}</h1>
         <LikeButton slug={pattern.slug} />
       </div>
 
+      <p class="text-lg text-sparks-ink/80">{pattern.data.summary}</p>
+
       {
-        pattern.data.patternFamily && (
-          <p class="text-sm text-sparks-ink/70">
-            Pattern family: <span class="font-medium">{pattern.data.patternFamily}</span>
-          </p>
+        pattern.data.tags && pattern.data.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {pattern.data.tags.map((tag) => (
+              <span class="text-xs px-2 py-0.5 rounded-full bg-sparks-sun/40 text-sparks-ink/80">
+                {tag}
+              </span>
+            ))}
+          </div>
         )
       }
     </header>
 
-    <section class="grid gap-6 md:grid-cols-2">
-      <div class="space-y-4">
-        <h2 class="text-lg font-semibold">Context</h2>
-        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
-          {pattern.data.context}
-        </p>
+    <!-- Forces (from frontmatter, linked to registry) -->
+    {
+      forces.length > 0 && (
+        <section class="bg-sparks-sky/10 rounded-lg p-4 space-y-2">
+          <h2 class="text-sm font-semibold text-sparks-ink/70">Forces (Registry Links)</h2>
+          <div class="flex flex-wrap gap-2">
+            {forces.map((f) => (
+              <a
+                href={`/forces/${f.slug}`}
+                class="text-sm px-3 py-1 rounded-full bg-white border border-sparks-sky/30 text-sparks-teal hover:bg-sparks-sky/10 transition"
+              >
+                {f.data.title}
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
-        <h2 class="text-lg font-semibold">Problem</h2>
-        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
-          {pattern.data.problem}
-        </p>
-
-        <h2 class="text-lg font-semibold">Forces</h2>
-        <ul class="space-y-1 text-sm text-sparks-ink/80">
-          {
-            forces.map((f) => (
-              <li>
-                <a href={`/forces/${f.slug}`} class="text-sparks-teal hover:underline">
-                  {f.data.title}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <div class="space-y-4">
-        <h2 class="text-lg font-semibold">Solution</h2>
-        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
-          {pattern.data.solution}
-        </p>
-
-        <h2 class="text-lg font-semibold">Implementation</h2>
-        <p class="text-sm text-sparks-ink/80 whitespace-pre-line">
-          {pattern.data.implementation}
-        </p>
-
-        {
-          pattern.data.examples && pattern.data.examples.length > 0 && (
-            <div>
-              <h2 class="text-lg font-semibold">Examples</h2>
-              <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
-                {pattern.data.examples.map((ex) => (
-                  <li>{ex}</li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-      </div>
+    <!-- Main content body (MDX) -->
+    <section class="prose prose-sparks max-w-none">
+      <Content />
     </section>
 
+    <!-- Related patterns -->
+    {
+      relatedPatterns.length > 0 && (
+        <section class="space-y-3">
+          <h2 class="text-lg font-semibold">Related Patterns</h2>
+          <ul class="list-disc pl-4 text-sm text-sparks-ink/80">
+            {relatedPatterns.map((p) => (
+              <li>
+                <a href={`/patterns/${p.slug}`} class="text-sparks-teal hover:underline">
+                  {p.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- Stories that reference this pattern -->
     {
       stories.length > 0 && (
         <section class="space-y-3">
@@ -107,12 +120,23 @@ const stories = await getStoriesForPatternSlug(pattern.slug);
       )
     }
 
+    <!-- Metadata footer -->
     <section
       class="border-t border-sparks-amber/30 pt-4 text-xs text-sparks-ink/70 flex flex-wrap gap-3"
     >
-      <span>Version: {pattern.data.version}</span>
       <span>Status: {pattern.data.status}</span>
-      <span>Schema: {pattern.data.schemaVersion}</span>
+      {pattern.data.authors && <span>Authors: {pattern.data.authors.join(', ')}</span>}
+      {
+        pattern.data.created && (
+          <span>Created: {new Date(pattern.data.created).toLocaleDateString()}</span>
+        )
+      }
+      {
+        pattern.data.updated && (
+          <span>Updated: {new Date(pattern.data.updated).toLocaleDateString()}</span>
+        )
+      }
+      {pattern.data.recognition?.license && <span>License: {pattern.data.recognition.license}</span>}
     </section>
   </article>
 </BaseLayout>
